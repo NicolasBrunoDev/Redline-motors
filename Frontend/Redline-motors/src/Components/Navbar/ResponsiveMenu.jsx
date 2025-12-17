@@ -15,9 +15,8 @@ function ResponsiveMenu({open}) {
             >
                 <div className="text-xl font-semibold uppercase bg-red-700 text-white py-10 m-6 rounded-3xl">
                     <ul className='flex flex-col justify-center items-center gap-10'>
-                        <li>Home</li>
-                        <li>Projects</li>
-                        <li>Contact</li>
+                        <li>Crear Cuenta</li>
+                        <li>Iniciar Sesion</li>
                     </ul>
                 </div>
                 </motion.div>

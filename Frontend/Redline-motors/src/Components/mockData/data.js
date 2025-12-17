@@ -1,17 +1,12 @@
 export const NavbarMenu= [
     {
         id:1,
-        title:"Home",
+        title:"Crear Cuenta",
         link:"/"
     },
     {
         id:2,  
-        title:"Projects",
-        link:"#"
-    },
-    {
-        id:3,
-        title:"Contact",
+        title:"Iniciar Sesion",
         link:"#"
     }
 ]
