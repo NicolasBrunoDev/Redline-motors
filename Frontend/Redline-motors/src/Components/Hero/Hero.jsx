@@ -68,12 +68,30 @@ function Hero() {
 
                                     {/* Text */}
                                     <div className='flex flex-col justify-center h-full gap-4 sm:pl-3 pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10'>
-                                        <h1 className='text-2xl sm:text-6xl lg:text-2xl font-bold'>{data.subtitle}</h1>
-                                        <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold'>{data.title}</h1>
-                                        <h1 className='text-5xl uppercase text-white dark:text-white/5 sm:text-[80px] md:text-[100px] xl:text-[150px] font-bold'>
+                                        <h1 
+                                        data-aos="zoom-out"
+                                        data-aos-duration="500"
+                                        data-aos-delay="true"
+                                        className='text-2xl sm:text-6xl lg:text-2xl font-bold'>{data.subtitle}</h1>
+                                        <h1        
+                                        data-aos="zoom-out"
+                                        data-aos-duration="500"
+                                        data-aos-delay="true" 
+                                        className='text-5xl sm:text-6xl lg:text-7xl font-bold'>{data.title}</h1>
+                                        <h1 
+                                        data-aos="zoom-out"
+                                        data-aos-duration="500"
+                                        data-aos-delay="true"
+                                        className='text-5xl uppercase text-white dark:text-white/5 sm:text-[80px] md:text-[100px] xl:text-[150px] font-bold'>
                                             {data.title2}
                                         </h1>
-                                        <div>
+                                        <div
+                                        data-aos="fade-up"
+                                        data-aos-offset="0"
+                                        data-aos-duration="500"
+                                        data-aos-delay="300"
+
+                                        >
                                             <Button
                                                 text="Shop Now"
                                                 bgColor="bg-red-600 hover:bg-red-700"
@@ -83,7 +101,7 @@ function Hero() {
                                     </div>
 
                                     {/* Image */}
-                                    <div className='order-1 sm:order-2 flex items-center justify-center h-full'>
+                                    <div data-aos="zoom-in" data-aos-once="true" className='relative z-10 order-1 sm:order-2 flex items-center justify-center h-full'>
                                         <img
                                             src={data.image}
                                             alt=""

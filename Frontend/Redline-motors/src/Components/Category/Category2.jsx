@@ -1,9 +1,8 @@
 import React from 'react'
 import Button from '../shared/Button';
 import Car2 from '../../assets/images/Car2.png';
-import Moto3 from '../../assets/images/Moto3.png';
-import Moto_helm2 from '../../assets/images/Motorcycle_helm2.png';
-
+import Tool from '../../assets/images/Llave_inglesa.png';
+import Spray_gun from '../../assets/images/Spray_gun.png';
 
 function Category() {
     return (
@@ -34,7 +33,7 @@ function Category() {
                             <div className='mb-4'>
                                 <p className='mb-[2px] text-white'>Enjoy</p>
                                 <p className='text-2xl font-semibold mb-[2px]'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Bike</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Service</p>
                                 <Button
                                     text="Browse"
                                     bgColor="bg-red-600"
@@ -42,7 +41,7 @@ function Category() {
                                 />
                             </div>
                         </div>
-                        <img src={Moto3} alt="" className='w-[320px] -right-4 absolute lg:top-[40px]' />
+                        <img src={Tool} alt="" className='w-[220px] -right-5 absolute lg:top-[40px] rotate-120' /> 
                     </div>
                     {/*Tercera columna*/}
                     <div className=' py-10 pl-5 bg-gradient-to-br from-red-600/90 to-blue-800/70 text-white rounded-3xl relative h-[320px]
@@ -51,7 +50,7 @@ function Category() {
                             <div className='space-y-1 mb-4'>
                                 <p className='text-white'>Enjoy</p>
                                 <p className='text-2xl font-semibold'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Helmet</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Paints</p>
                                 <Button
                                     text="Browse"
                                     bgColor="bg-white"
@@ -59,7 +58,7 @@ function Category() {
                                 />
                             </div>
                         </div>
-                        <img src={Moto_helm2} alt="" className='w-[320px] absolute top-1/2 -translate-y-1/2 -right-0' />
+                        <img src={Spray_gun} alt="" className='w-[180px] absolute top-1/3 -translate-y-1/2 -right-0' />
                     </div>
                 </div>
             </div>

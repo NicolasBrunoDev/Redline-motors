@@ -17,7 +17,7 @@ function Category() {
                             <div className='mb-4'>
                                 <p className='mb-[2px] text-gray-400'>Enjoy</p>
                                 <p className='text-2xl font-semibold mb-[2px]'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-40 mb-2'>Bike</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-40 mb-2'>Accesories</p>
                                 <Button
                                     text="Browse"
                                     bgColor="bg-red-600"
@@ -34,7 +34,7 @@ function Category() {
                             <div className='mb-4'>
                                 <p className='mb-[2px] text-white'>Enjoy</p>
                                 <p className='text-2xl font-semibold mb-[2px]'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Bike</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Bikes</p>
                                 <Button
                                     text="Browse"
                                     bgColor="bg-red-600"
@@ -51,7 +51,7 @@ function Category() {
                             <div className='space-y-1 mb-4'>
                                 <p className='text-white'>Enjoy</p>
                                 <p className='text-2xl font-semibold'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Helmet</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Helmets</p>
                                 <Button
                                     text="Browse"
                                     bgColor="bg-white"

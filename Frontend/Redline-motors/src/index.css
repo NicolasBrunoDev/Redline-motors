@@ -9,10 +9,60 @@
   }
 }
 
+/* Body Background Styles */
+
 .dark body {
-  @apply bg-gray-100 dark:bg-[#161616] transition-colors duration-300;
+  @apply bg-gray-100 dark:bg-[#0f0f0f] transition-colors duration-300;
 }
 
 .light body {
   @apply bg-[#f3f4f6] transition-colors duration-300;
+}
+/* Categories Hero Text Styles */
+
+.light body .categories-hero {
+  @apply text-[#0f0f0f] transition-colors duration-300;
+}
+
+.dark body .categories-hero {
+  @apply dark:text-[#f3f4f6] transition-colors duration-300;
+}
+
+/* Heading products Text Styles */
+
+.light body .heading-text {
+  @apply text-[#0f0f0f] transition-colors duration-300;
+}
+
+.dark body .heading-text {
+  @apply dark:text-[#f3f4f6] transition-colors duration-300;
+}
+
+/* Products Text Styles */
+
+.light body .products-text {
+  @apply text-[#1f1f1f] transition-colors duration-300;
+}
+
+.dark body .products-text {
+  @apply dark:text-[#e4e4e4] transition-colors duration-300;
+}
+
+/* News Section Text Styles */
+
+.light body .text-news-section {
+  @apply text-[#1f1f1f] transition-colors duration-300;
+}
+
+.dark body .text-news-section {
+  @apply dark:text-[#e4e4e4] transition-colors duration-300;
+}
+
+/* Footer Text Styles */
+
+.dark body .text-footer {
+  @apply dark:text-[#e4e4e4] transition-colors duration-300;
+}
+.light body .text-footer {
+  @apply text-[#1f1f1f] transition-colors duration-300;
 }
