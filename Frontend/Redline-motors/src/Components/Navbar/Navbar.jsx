@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import ResponsiveMenu from './ResponsiveMenu.jsx';
 import DarkMode from './DarkMode.jsx';
 
-const Navbar = () => {
+const Navbar = ({ setAuthPopup }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -16,12 +16,15 @@ const Navbar = () => {
   to-gray-950/80
 ">
         <div className="container mx-auto flex items-center justify-between py-2 px-4">
-          
+
           {/* Logo Section */}
+
           <div className="text-amber-50 text-2xl flex items-center gap-2 font-bold py-2">
             <p>Redline</p>
             <p className='text-red-700'>Motors</p>
-            {/* Ajusté a lg:inline para que no choque con el menú en tablets */}
+
+            {/* Ajuste a lg:inline para que no choque con el menú en tablets*/}
+
             <p className='hidden lg:inline text-sm font-normal opacity-70'>
               | Deja tus preocupaciones en la puerta
             </p>
@@ -29,29 +32,41 @@ const Navbar = () => {
 
           {/* Right Side Section (Menu + DarkMode + Mobile Icon) */}
           <div className='flex items-center gap-4'>
-            
+
             {/* Desktop Menu */}
+
+            {/* El navbar consigue su data desde mockData/data.js */}
+
             <div className='hidden md:block'>
               <ul className='flex items-center gap-6 text-gray-50'>
                 {NavbarMenu.map((item) => (
                   <li key={item.id}>
-                    <a 
-                      href={item.link} 
-                      className='inline-block py-1 px-3 hover:text-red-700 font-semibold transition-colors'
+                    <button // Cambiamos <a> por <button> para que sea una acción
+
+                      onClick={() => {
+
+                        // Si el título es de cuenta, abrimos el popup
+                        if (item.title === "Crear Cuenta" || item.title === "Iniciar Sesion") {
+                          setAuthPopup(true);
+                        }
+                      }}
+                      className='inline-block py-1 px-3 hover:text-red-700 font-semibold transition-colors uppercase'
                     >
                       {item.title}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Dark Mode Component */}
+
             <div className='flex items-center'>
               <DarkMode />
             </div>
 
             {/* Mobile hamburger Menu section */}
+
             <div className='md:hidden flex items-center' onClick={() => setOpen(!open)}>
               <RxHamburgerMenu className="text-4xl text-red-700 font-bold cursor-pointer" />
             </div>
@@ -61,7 +76,8 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Sidebar section */}
-      <ResponsiveMenu open={open} />
+
+      <ResponsiveMenu open={open} setAuthPopup={setAuthPopup} />
     </>
   );
 }
