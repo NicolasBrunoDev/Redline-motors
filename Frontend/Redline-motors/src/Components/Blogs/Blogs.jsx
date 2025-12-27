@@ -31,7 +31,7 @@ const BlogData=[
 
 const Blogs = () => {
   return (
-    <div className=' pl-20'>
+    <div className='pl-5 pr-5'>
         <div className='container'>
         {/* Header Section*/}
                 <Heading title="Recent News" subtitle="Explore our Blogs" />
@@ -39,7 +39,7 @@ const Blogs = () => {
 
         {/* Blogs Section*/}
         <div 
-        className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 sm:gap-4 md:gap-7'>
+        className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 sm:gap-4 md:gap-7 place-items-center'>
             {/* Blog Card 1 */}
             {
                 BlogData.map((data)=>(

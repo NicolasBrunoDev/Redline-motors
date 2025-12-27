@@ -17,7 +17,7 @@ public class user {
 
     private String password;
 
-    // --- IMPORTANTE: IntelliJ puede generar esto por ti ---
+    // --- IMPORTANTE: IntelliJ puede generar esto por ti(Enserio, es util) ---
     // Clic derecho > Generate > Getter and Setter > Selecciona todos
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

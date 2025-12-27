@@ -3,7 +3,7 @@ import Button from '../shared/Button.jsx';
 
 const ProductCard = ({data}) => {
   return (
-    <div className='mb-10 pl-20'>
+    <div className='mb-10 pl-5 pr-5'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 place-items-center'>
 
         {/*card section*/}

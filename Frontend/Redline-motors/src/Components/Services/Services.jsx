@@ -36,7 +36,7 @@ const ServiceData = [
 function Services() {
   return (
     <div>
-        <div className='container mt-14 md:my-20 pl-20'>
+        <div className='container mt-14 md:my-20 pl-5 pr-5'>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 gap-y-8'>
                 {ServiceData.map((data) => (
                         <div className='flex flex-col items-center sm:flex-row gap-4 text-red-500'>

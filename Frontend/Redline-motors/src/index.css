@@ -66,3 +66,12 @@
 .light body .text-footer {
   @apply text-[#1f1f1f] transition-colors duration-300;
 }
+
+/* Reservas Text Styles */
+
+.dark body .reservas-text {
+  @apply dark:text-[#e4e4e4] transition-colors duration-300;
+}
+.light body .reservas-text {
+  @apply text-[#1f1f1f] transition-colors duration-300;
+}
