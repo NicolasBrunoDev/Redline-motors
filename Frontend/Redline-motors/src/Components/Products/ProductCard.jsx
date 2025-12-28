@@ -26,7 +26,7 @@ const ProductCard = ({data}) => {
                 group-hover:backdrop-blur-sm 
                 justify-center items-center duration-200 rounded-md bg-black/20'> 
                 <Button 
-                  text={"Add to Cart"}
+                  text={"Añadir al carrito"}
                   bgColor={"bg-red-600 hover:bg-red-700"}
                   textColor={"text-white"}
                 />

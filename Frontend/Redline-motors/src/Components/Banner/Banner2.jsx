@@ -3,13 +3,13 @@ import React from 'react'
 import Moto5 from '../../assets/images/Moto5.png';
 
 const BannerData = {
-    discount: "30% OFF",
+    discount: "30% DE DESCUENTO",
     image: Moto5,
-    title: "Summer Sale",
-    date: "Valid until February 21, 2026",
+    title: "OFERTA DE VERANO",
+    date: "Válido hasta Febrero 21, 2026",
     title2: "Kawasaki Ninja 300",
-    title3: "Explore More",
-    title4: "Limited Time Offer",
+    title3: "Explorar Mas",
+    title4: "Oferta por Tiempo Limitado",
     bgColor: "#1852B0",
 }
 

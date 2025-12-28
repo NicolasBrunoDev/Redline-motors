@@ -15,11 +15,13 @@ import Reserva from "./Components/Reservations/Reserva.jsx";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CarSlider from "./Components/Cars/CarSlider.jsx";
+import AdminPanel from "./Components/Admin/AdminPanel.jsx"
+import {Routes, Route, useNavigate, useLocation} from 'react-router-dom'
 
 const App = () => {
   const [orderPopup, setOrderPopup] = React.useState(false);
   const [authPopup, setAuthPopup] = React.useState(false);
-  const [view, setView] = React.useState("tienda"); // Estado para controlar la vista
+  const [view, setView] = React.useState("tienda");
   const [currentUser, setCurrentUser] = React.useState(null);
 
 React.useEffect(() => {
@@ -45,37 +47,42 @@ const handleLogout = () => {
     AOS.refresh();
   }, []);
 
+const location=useLocation();
+
+React.useEffect(() => {
+    if (location.pathname === "/admin") {
+      setView("admin");
+    }
+  }, [location]);
+
   return (
     <div className="overflow-hidden"> 
-
-      {/* 1. Navbar: Ahora recibe setView para poder cambiar de pestaña */}
-      <Navbar setAuthPopup={setAuthPopup} setView={setView} currentUser={currentUser} handleLogout={handleLogout} />
+      {/* Navbar ahora puede cambiar la vista a 'admin' si es necesario */}
+      <Navbar setAuthPopup={setAuthPopup} setView={setView} view= {view} currentUser={currentUser} handleLogout={handleLogout} />
       
-      {/* 2. Selector de Vista*/}
-      <div className="flex justify-center gap-10 pt-20 pb-5 rounded-b-xl"   data-aos="fade-up" data-aos-duration="500" data-aos-delay="true">
-        <button 
-          onClick={() => setView("tienda")}
-          className={`text-xl font-bold  px-10 rounded-xl bg-gray-900/80 transition-all ${view === 'tienda' ? 'text-red-700 border-b-2 border-red-700 bg-gray-900' : 'text-white opacity-50'}`}
-        >
-          TIENDA
-        </button>
-        <button 
-          onClick={() => setView("reservas")}
-          className={`text-xl font-bold px-10 rounded-xl bg-gray-900/80 transition-all ${view === 'reservas' ? 'text-red-700 border-b-2 border-red-700 bg-gray-900' : 'text-white opacity-50'}`}
-        >
-          RESERVAS
-        </button>
-      </div>
-
-      {/* 3. Contenido Condicional */}
+      {/* Selector de Vista: Solo lo mostramos si NO estamos en el panel de admin */}
+      {view !== "admin" && (
+        <div className="flex justify-center gap-10 pt-20 pb-5" data-aos="fade-up">
+          <button 
+            onClick={() => setView("tienda")}
+            className={`text-xl font-bold px-10 rounded-xl bg-gray-900/80 transition-all ${view === 'tienda' ? 'text-red-700 border-b-2 border-red-700' : 'text-gray-500'}`}
+          >
+            TIENDA
+          </button>
+          <button 
+            onClick={() => setView("reservas")}
+            className={`text-xl font-bold px-10 rounded-xl bg-gray-900/80 transition-all ${view === 'reservas' ? 'text-red-700 border-b-2 border-red-700' : 'text-gray-500'}`}
+          >
+            RESERVAS
+          </button>
+        </div>
+      )}
 
       <main>
-
-        {view === "tienda" ? (
-          /* --- COMPONENTES DE LA TIENDA --- */
+        {view === "tienda" && (
           <div data-aos="fade-up">
             <Hero />
-            <p className="pl-11 pt-5 text-white text-4xl categories-hero">Categories</p>
+            <p className="pl-11 pt-5 text-4xl font-bold categories-hero">Categories</p>
             <Category />
             <Category2 />
             <Services />
@@ -84,19 +91,29 @@ const handleLogout = () => {
             <Banner2 />
             <Blogs />
           </div>
-        ) 
-        :
-        (<>
-          <Reserva />
-          <CarSlider />
-          </>
+        )}
+
+        {view === "reservas" && (
+          <div data-aos="fade-in">
+            <Reserva />
+            <CarSlider  currentUser={currentUser}/>
+          </div>
+        )}
+
+        {view === "admin" && (
+          <div data-aos="zoom-in">
+            {currentUser?.role === "ADMIN" ? (
+              <AdminPanel />
+            ) : (
+              <div className="h-screen flex items-center justify-center text-white text-2xl">
+                Acceso Denegado. No eres administrador.
+              </div>
+            )}
+          </div>
         )}
       </main>
 
-      {/* 4. Footer siempre visible */}
       <Footer />
-      
-      {/* Popups siempre disponibles */}
       <Cartpopup orderPopup={orderPopup} setOrderPopup={setOrderPopup}/>
       <AuthPopup authPopup={authPopup} setAuthPopup={setAuthPopup} />
     </div>

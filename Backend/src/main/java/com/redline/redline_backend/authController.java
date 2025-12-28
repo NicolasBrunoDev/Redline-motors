@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+
+@CrossOrigin(origins = "http://localhost:5173")
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class authController {
 
     @Autowired
@@ -21,7 +23,6 @@ public class authController {
         return "Usuario " + user.getName() + " creado con éxito";
     }
 
-    // --- NUEVO MÉTODO PARA LOGIN ---
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody user loginData) {
         // 1. Buscar al usuario por el email que viene del frontend
@@ -35,5 +36,11 @@ public class authController {
             // Si falla, devolvemos un error 401 = (No autorizado)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email o contraseña incorrectos");
         }
+
+
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "El servidor funcionan normalmente";
     }
 }

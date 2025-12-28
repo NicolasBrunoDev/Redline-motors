@@ -17,6 +17,10 @@ public class user {
 
     private String password;
 
+    private String role;
+
+    public user(){  }
+
     // --- IMPORTANTE: IntelliJ puede generar esto por ti(Enserio, es util) ---
     // Clic derecho > Generate > Getter and Setter > Selecciona todos
     public Long getId() { return id; }
@@ -27,4 +31,6 @@ public class user {
     public void setEmail(String email) { this.email = email; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

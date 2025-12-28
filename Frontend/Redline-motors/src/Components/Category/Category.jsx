@@ -10,56 +10,55 @@ function Category() {
         <div className='py-8'>
             <div className='container mx-auto'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
-                    {/*Primera columna*/}
-                    <div className='py-10 pl-5 bg-gradient-to-br from-black/90 to-black/70 text-white rounded-3xl relative h-[320px]
-                flex items-end'>
+                    {/* Primera columna - Accesorios */}
+                    <div className='py-10 pl-5 bg-gradient-to-br from-black/90 to-black/70 text-white rounded-3xl relative h-[320px] flex items-end'>
                         <div>
                             <div className='mb-4'>
-                                <p className='mb-[2px] text-gray-400'>Enjoy</p>
-                                <p className='text-2xl font-semibold mb-[2px]'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-40 mb-2'>Accesories</p>
+                                <p className='mb-[2px] text-gray-400'>Disfruta</p>
+                                <p className='text-2xl font-semibold mb-[2px]'>Con nuestros</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-40 mb-2'>Accesorios</p>
                                 <Button
-                                    text="Browse"
+                                    text="Explorar"
                                     bgColor="bg-red-600"
                                     textColor="text-white"
                                 />
                             </div>
                         </div>
-                        <img src={Bike_Gloves} alt="" className='w-[320px] absolute bottom-0' />
+                        <img src={Bike_Gloves} alt="Guantes" className='w-[320px] absolute bottom-0' />
                     </div>
-                    {/*Segunda columna*/}
-                    <div className='py-10 pl-5 bg-gradient-to-br from-lime-600/90 to-blue-800/70 text-white rounded-3xl relative h-[320px]
-                flex items-end'>
+
+                    {/* Segunda columna - Motos */}
+                    <div className='py-10 pl-5 bg-gradient-to-br from-lime-600/90 to-blue-800/70 text-white rounded-3xl relative h-[320px] flex items-end'>
                         <div>
                             <div className='mb-4'>
-                                <p className='mb-[2px] text-white'>Enjoy</p>
-                                <p className='text-2xl font-semibold mb-[2px]'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Bikes</p>
+                                <p className='mb-[2px] text-white'>Disfruta</p>
+                                <p className='text-2xl font-semibold mb-[2px]'>Con tus</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-50 mb-2'>Motos</p>
                                 <Button
-                                    text="Browse"
+                                    text="Explorar"
                                     bgColor="bg-red-600"
                                     textColor="text-white"
                                 />
                             </div>
                         </div>
-                        <img src={Moto3} alt="" className='w-[320px] -right-4 absolute lg:top-[40px]' />
+                        <img src={Moto3} alt="Motos" className='w-[320px] -right-4 absolute lg:top-[40px]' />
                     </div>
-                    {/*Tercera columna*/}
-                    <div className='col-span-2 py-10 pl-5 bg-gradient-to-br from-red-600/90 to-blue-800/70 text-white rounded-3xl relative h-[320px]
-                flex items-end'>
+
+                    {/* Tercera columna (Doble ancho) - Cascos */}
+                    <div className='col-span-2 py-10 pl-5 bg-gradient-to-br from-red-600/90 to-blue-800/70 text-white rounded-3xl relative h-[320px] flex items-end'>
                         <div>
                             <div className='space-y-1 mb-4'>
-                                <p className='text-white'>Enjoy</p>
-                                <p className='text-2xl font-semibold'>With</p>
-                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Helmets</p>
+                                <p className='text-white'>Disfruta</p>
+                                <p className='text-2xl font-semibold'>Con los mejores</p>
+                                <p className='text-4xl xl:text-5xl font-bold opacity-80 mb-2'>Cascos</p>
                                 <Button
-                                    text="Browse"
+                                    text="Explorar"
                                     bgColor="bg-white"
                                     textColor="text-black"
                                 />
                             </div>
                         </div>
-                        <img src={Moto_helm2} alt="" className='w-[320px] absolute top-1/2 -translate-y-1/2 -right-0' />
+                        <img src={Moto_helm2} alt="Cascos" className='w-[320px] absolute top-1/2 -translate-y-1/2 -right-0' />
                     </div>
                 </div>
             </div>

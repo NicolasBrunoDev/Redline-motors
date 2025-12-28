@@ -5,27 +5,27 @@ import maintenanceImg from '../../Assets/Images/maintenance.jpg'
 import engine from '../../Assets/Images/engine.jpg'
 import gear from '../../Assets/Images/gear.jpg'
 
-const BlogData=[
+const BlogData = [
     {
-        title:"Top 10 Motorcycle Maintenance Tips",
-        description:"Discover essential tips to keep your motorcycle in top condition and ensure a smooth ride every time.",
-        date:"August 15, 2023",
+        title: "Top 10: Consejos de Mantenimiento para tu Moto",
+        description: "Descubre los cuidados esenciales para mantener tu máquina en perfectas condiciones y garantizar un viaje seguro.",
+        date: "15 de Agosto, 2023",
         image: maintenanceImg,
-        aosDelay:"0",
+        aosDelay: "0",
     },
     {
-        title:"The Evolution of Motorcycle Design",
-        description:"Explore how motorcycle designs have transformed over the decades, blending style with functionality.",
-        date:"September 10, 2023",
+        title: "La Evolución del Diseño en las Motores",
+        description: "Explora cómo han cambiado las líneas y la estética a través de las décadas, fusionando estilo con ingeniería avanzada.",
+        date: "10 de Septiembre, 2023",
         image: engine,
-        aosDelay:"200",
+        aosDelay: "200",
     },
     {
-        title:"Choosing the Right Gear for Your Ride",
-        description:"A comprehensive guide to selecting the best protective gear for safety and comfort on the road.",
-        date:"October 5, 2023",
+        title: "Equipamiento: Cómo elegir el casco y traje ideal",
+        description: "Una guía completa para seleccionar la protección adecuada, priorizando tu seguridad y confort en cada kilómetro.",
+        date: "5 de Octubre, 2023",
         image: gear,
-        aosDelay:"400",
+        aosDelay: "400",
     }
 ]
 

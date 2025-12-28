@@ -3,13 +3,13 @@ import React from 'react'
 import Car from '../../assets/images/Car2.png';
 
 const BannerData = {
-    discount: "20% OFF",
+    discount: "20% DE DESCUENTO",
     image: Car,
-    title: "Summer Sale",
-    date: "Valid until February 21, 2026",
+    title: "Oferta de Verano",
+    date: "Válido hasta el 21 de Febrero, 2026",
     title2: "BMW M4 Coupé",
-    title3: "Explore More",
-    title4: "Limited Time Offer",
+    title3: "Explorar Más",
+    title4: "Oferta por Tiempo Limitado",
     bgColor: "#FF5733",
 }
 
@@ -36,7 +36,7 @@ function Banner({data}) {
                     <p data-aos="fade-up" className='text-sm tracking-wide leading-5'>{BannerData.title4}</p>
                     <div data-aos="fade-up" data-aos-offset="0">
                         <button style={{color:BannerData.bgColor}} className='bg-white py-2 px-4 rounded-full cursor-pointer hover:scale-110 duration-300'>
-                            Shop Now
+                            Compra Ya
                         </button>
                     </div>
                   </div>
