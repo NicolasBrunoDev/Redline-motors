@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class carController {
 
     @Autowired
@@ -39,5 +39,19 @@ public class carController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor: " + e.getMessage());
         }
+    }
+
+    //4. Recibir la información de los autos
+    @PutMapping("/update/{id}")
+    public ResponseEntity<car> updateCar(@PathVariable Long id, @RequestBody car carDetails) {
+        return carRepository.findById(id).map(car -> {
+            car.setName(carDetails.getName());
+            car.setBrand(carDetails.getBrand());
+            car.setPriceDay(carDetails.getPriceDay());
+            car.setCategory(carDetails.getCategory());
+            car.setImages(carDetails.getImages());
+            carRepository.save(car);
+            return ResponseEntity.ok(car);
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

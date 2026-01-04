@@ -17,12 +17,16 @@ import 'aos/dist/aos.css';
 import CarSlider from "./Components/Cars/CarSlider.jsx";
 import AdminPanel from "./Components/Admin/AdminPanel.jsx"
 import {Routes, Route, useNavigate, useLocation} from 'react-router-dom'
+import ReservationPopup from "./Components/Popups/ReservationPopup.jsx";
 
 const App = () => {
   const [orderPopup, setOrderPopup] = React.useState(false);
   const [authPopup, setAuthPopup] = React.useState(false);
   const [view, setView] = React.useState("tienda");
   const [currentUser, setCurrentUser] = React.useState(null);
+  const [showReservation, setShowReservation] = React.useState(false);
+  const [selectedCarForReservation, setSelectedCarForReservation] = React.useState(null);
+  
 
 React.useEffect(() => {
   const savedUser = localStorage.getItem("user");
@@ -35,6 +39,11 @@ const handleLogout = () => {
     localStorage.removeItem("user");
     setCurrentUser(null);
     window.location.reload(); 
+  };
+
+  const handleOpenReservation = (car) => {
+    setSelectedCarForReservation(car);
+    setShowReservation(true);
   };
 
   React.useEffect(() => {
@@ -96,7 +105,11 @@ React.useEffect(() => {
         {view === "reservas" && (
           <div data-aos="fade-in">
             <Reserva />
-            <CarSlider  currentUser={currentUser}/>
+            <CarSlider  currentUser={currentUser} onRentClick={handleOpenReservation}/>
+            <CarSlider  currentUser={currentUser} categoryFilter={"Deportivo"} onRentClick={handleOpenReservation}/>
+            <CarSlider  currentUser={currentUser} categoryFilter={"Lujo"} onRentClick={handleOpenReservation}/>
+            <CarSlider  currentUser={currentUser} categoryFilter={"Urbano"} onRentClick={handleOpenReservation}/>
+            <CarSlider  currentUser={currentUser} categoryFilter={"Economico"} onRentClick={handleOpenReservation}/>
           </div>
         )}
 
@@ -116,6 +129,7 @@ React.useEffect(() => {
       <Footer />
       <Cartpopup orderPopup={orderPopup} setOrderPopup={setOrderPopup}/>
       <AuthPopup authPopup={authPopup} setAuthPopup={setAuthPopup} />
+      <ReservationPopup show={showReservation} car={selectedCarForReservation} onClose={() => setShowReservation(false)} />
     </div>
   );
 }

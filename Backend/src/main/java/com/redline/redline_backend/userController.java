@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173") // Para que React pueda entrar
+@CrossOrigin(origins = "*") // Para que React pueda entrar
 public class userController {
 
     @Autowired

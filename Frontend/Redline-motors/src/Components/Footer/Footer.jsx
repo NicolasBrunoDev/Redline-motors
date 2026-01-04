@@ -7,15 +7,15 @@ import { FaLinkedin } from "react-icons/fa";
 
 const FooterLinks = [
     {
-        title:"Home",
+        title:"Inicio",
         link:"#",
     },
     {
-        title:"About",
+        title:"Nosotros",
         link:"/#about",
     },
     {
-        title:"Contact",
+        title:"Contacto",
         link:"/#contact",
     },
     {
@@ -33,14 +33,13 @@ function Footer() {
                 <div className='py-8 px-4'>
                     <a href="#" className='text-red-600 font-semibold tracking-widest text-2xl 
                     uppercase sm:text-3xl'>Eshop</a>
-                    <p className='text-gray-600  lg:pr-24 pt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Totam molestias quo tenetur obcaecati similique neque earum necessitatibus. </p>
+                    <p className='text-gray-600  lg:pr-24 pt-3'>Nuestra pasión es ofrecerte los mejores vehículos con un servicio de primera clase. Calidad y confianza en cada kilómetro. </p>
                 </div>
                 {/* quick links */}
                 <div className='col-span-2 grid grid-cols-2 sm:grid-cols-3 md:pl-10'>
                     <div className='py-8 px-4'>
                         <h1 className='text-xl font-bold sm:text-left mb-3'>
-                            Important Links
+                            Enlaces Importantes
                         </h1>
                         <ul>
                             {
@@ -59,7 +58,7 @@ function Footer() {
                     {/*Second Links */}
                     <div className='py-8 px-4'>
                         <h1 className='text-xl font-bold sm:text-left mb-3'>
-                            Quick Links
+                            Accesos rápidos
                         </h1>
                         <ul>
                             {
@@ -77,11 +76,11 @@ function Footer() {
                     </div>
                     {/*Direccion/ ¿Domicilio?*/}
                 <div className='py-8 px-4  col-span-2 sm:col-auto'>
-                    <h1 className='text-xl font-bold sm:text-left mb-3'>Address</h1>
+                    <h1 className='text-xl font-bold sm:text-left mb-3'>Dirección</h1>
                         <div>
                             <div className='flex items-center gap-3'>
                                 <FaLocationDot />
-                                <p>123 Main Street, City, Country</p>
+                                <p>123 King's row, Inglaterra, Inglaterra</p>
                             </div>
                             <div className='flex items-center gap-3 mt-6'>
                                 <FaMobileAlt />
@@ -90,13 +89,13 @@ function Footer() {
 
                             {/* social links*/}
                             <div className='flex items-center gap-3 mt-6'>
-                                <a href="#" className='text-3xl hover:text-primary duration-300'>
+                                <a href="https://www.instagram.com/" className='text-3xl hover:text-primary duration-300'>
                                     <FaInstagram />
                                 </a>
-                                <a href="#" className='text-3xl hover:text-primary duration-200'>
+                                <a href="https://www.facebook.com/" className='text-3xl hover:text-primary duration-200'>
                                     <FaFacebook />
                                 </a>
-                                <a href="#" className='text-3xl hover:text-primary duration-200'>
+                                <a href="https://www.linkedin.com/" className='text-3xl hover:text-primary duration-200'>
                                     <FaLinkedin />
                                 </a>
                             </div>
