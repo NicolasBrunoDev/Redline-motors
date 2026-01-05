@@ -68,9 +68,10 @@ const AdminPanel = ({ onActionSuccess }) => {
                 body: JSON.stringify({ name: newCategory })
             });
             if (res.ok) {
-                setNewCategory("");
-                setCars(prev => prev.map(c => c.id === carId ? { ...c, available: !currentStatus } : c));
+                setNewCategory(""); 
+
                 if (onActionSuccess) onActionSuccess();
+
                 fetchData();
             }
         } catch (err) {
@@ -85,10 +86,10 @@ const AdminPanel = ({ onActionSuccess }) => {
                     method: 'DELETE'
                 });
                 if (res.ok) {
-                    setCars(prev => prev.map(c => c.id === carId ? { ...c, available: !currentStatus } : c));
+
                     if (onActionSuccess) onActionSuccess();
-                    fetchData(); // Recargamos para ver los cambios
-                    
+
+                    fetchData();
                 } else {
                     alert("Error al eliminar la categoría");
                 }

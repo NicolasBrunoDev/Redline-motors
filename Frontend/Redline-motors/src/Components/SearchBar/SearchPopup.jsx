@@ -27,10 +27,10 @@ const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm,
 
 
 const finalDisplayCars = filteredCars.filter(car => {
-  // REGLA 1: Si el admin lo marcó como NO disponible (EN TALLER), no se muestra NUNCA.
+  // REGLA 1: Si el admin lo marco como NO disponible, no se muestra NUNCA.
   if (car.available === false) return false;
 
-  // REGLA 2: Si el botón "Sin Reserva" está activado...
+  // REGLA 2: Si el botón "Sin Reserva" esta activado...
   if (onlyAvailable) {
     // Solo mostramos los que NO tienen reservas en su lista
     return !car.bookings || car.bookings.length === 0;
@@ -66,12 +66,12 @@ const finalDisplayCars = filteredCars.filter(car => {
           </button>
         </div>
 
-        {/* Sección de Categorías y Filtro Especial */}
+        {/* Sección de Categorias y Filtro Especial */}
         <div className="max-w-7xl mx-auto mb-10">
           <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-3">Sugerencias y Estados</p>
           <div className="flex flex-wrap gap-2">
 
-            {/* BOTÓN "SIN RESERVA" - Estilo Diferenciado */}
+            {/* BOTÓN "SIN RESERVA" */}
             <button
               onClick={() => setOnlyAvailable(!onlyAvailable)}
               className={`px-4 py-2 rounded-full border text-xs font-bold uppercase transition-all duration-300 flex items-center gap-2 ${onlyAvailable

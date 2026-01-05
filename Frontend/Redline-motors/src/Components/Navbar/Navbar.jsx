@@ -4,6 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import ResponsiveMenu from './ResponsiveMenu.jsx';
 import DarkMode from './DarkMode.jsx';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/Redline.png';
 
 const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsFavOpen }) => {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,11 @@ const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsF
 
           {/* Logo Section */}
           <Link to="/" className="text-amber-50 text-2xl flex items-center gap-2 font-bold py-2">
+            <img
+              src= {Logo}
+              alt="Redline Logo"
+              className="w-10 h-10 object-contain transition-transform group-hover:scale-110 duration-300 rounded-lg"
+            />
             <p>Redline</p>
             <p className='text-red-700'>Motors</p>
             <p className='hidden lg:inline text-sm font-normal opacity-70'>
@@ -131,8 +137,8 @@ const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsF
         currentUser={currentUser}
         setAuthPopup={setAuthPopup}
         handleLogout={handleLogout}
-        setIsFavOpen={setIsFavOpen} 
-        setView={setView}        
+        setIsFavOpen={setIsFavOpen}
+        setView={setView}
       />
     </>
   );

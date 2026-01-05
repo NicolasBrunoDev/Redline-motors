@@ -2,7 +2,7 @@ import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa'; 
 
 const WhatsAppButton = () => {
-  const phoneNumber = "1234567890"; // Reemplaza con el número real (incluye código de país sin el +)
+  const phoneNumber = "1234567890"; 
   const message = "Hola Redline, tengo una consulta sobre uno de sus vehículos.";
   
   const handleWhatsAppClick = () => {
@@ -11,10 +11,8 @@ const WhatsAppButton = () => {
     
     try {
       window.open(url, '_blank');
-      // Notificación de éxito (Criterio de aceptación: Notificación de éxito)
       alert("Abriendo WhatsApp... ¡Gracias por contactarnos!");
     } catch (error) {
-      // Manejo de errores (Criterio de aceptación: Manejo de errores)
       console.error("Error al abrir WhatsApp", error);
       alert("No pudimos abrir WhatsApp. Por favor, verifica que tengas la aplicación instalada o intenta más tarde.");
     }

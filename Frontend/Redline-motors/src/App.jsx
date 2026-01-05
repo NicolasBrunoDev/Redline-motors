@@ -75,8 +75,8 @@ const App = () => {
       // Si no hay usuario (logout), limpiamos los favoritos
       setUserFavorites([]);
     }
-  }, [currentUser]); // Se ejecuta cada vez que currentUser se actualiza
-
+  }, [currentUser]); 
+  
   // 2. Filtrar autos en tiempo real
   const filteredCars = allCars.filter(car => {
     const search = searchTerm ? searchTerm.toLowerCase() : "";

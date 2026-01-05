@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const ReservationForm = ({ currentUser }) => {
   const [formData, setFormData] = useState({
-    serviceType: 'Mecánica', // Valor por defecto
+    serviceType: 'Mecánica', 
     vehicleModel: '',
     reservationDate: '',
   });
@@ -14,12 +14,11 @@ const ReservationForm = ({ currentUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Estructuramos el JSON exactamente como lo espera tu Java
     const reservationData = {
       serviceType: formData.serviceType,
       vehicleModel: formData.vehicleModel,
-      reservationDate: formData.reservationDate, // HTML datetime-local ya es compatible con LocalDateTime
-      user: { id: currentUser.id } // Vinculamos la reserva al ID del usuario logueado
+      reservationDate: formData.reservationDate, 
+      user: { id: currentUser.id } 
     };
 
     try {
@@ -31,7 +30,6 @@ const ReservationForm = ({ currentUser }) => {
 
       if (response.ok) {
         alert("¡Reserva confirmada! Te esperamos en Redline Motors.");
-        // Opcional: limpiar el formulario
         setFormData({ serviceType: 'Mecánica', vehicleModel: '', reservationDate: '' });
       } else {
         alert("Hubo un problema al crear la reserva.");
