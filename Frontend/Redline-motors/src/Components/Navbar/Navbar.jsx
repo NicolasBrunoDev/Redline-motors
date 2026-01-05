@@ -127,9 +127,12 @@ const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsF
 
       <ResponsiveMenu
         open={open}
-        setAuthPopup={setAuthPopup}
+        setOpen={setOpen}
         currentUser={currentUser}
+        setAuthPopup={setAuthPopup}
         handleLogout={handleLogout}
+        setIsFavOpen={setIsFavOpen} 
+        setView={setView}        
       />
     </>
   );
