@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm, onCarClick }) => {
+const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm, onCarClick, categories = [] }) => {
   const inputRef = useRef(null);
 
   // Auto-foco: Pone el cursor en el input apenas se abre el popup
@@ -28,7 +28,7 @@ const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm,
 
   return (
     <AnimatePresence>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -47,8 +47,8 @@ const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm,
               className="text-4xl font-black text-black uppercase outline-none bg-transparent w-full"
             />
           </div>
-          
-          <button 
+
+          <button
             onClick={onClose}
             className="text-black text-6xl font-light hover:text-red-700 transition-colors ml-4"
           >
@@ -56,20 +56,50 @@ const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm,
           </button>
         </div>
 
-        {/* Grid de Resultados */}
+        {/* Sección de Categorías Dinámicas */}
+        <div className="max-w-7xl mx-auto mb-10">
+          <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-3">Sugerencias por categoría</p>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSearchTerm(cat.name)}
+                className={`px-4 py-2 rounded-full border text-xs font-bold uppercase transition-all duration-300 ${searchTerm.toLowerCase() === cat.name.toLowerCase()
+                  ? "bg-red-700 border-red-700 text-white"
+                  : "bg-transparent border-gray-200 text-gray-500 hover:border-black hover:text-black"
+                  }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="px-4 py-2 rounded-full bg-gray-100 text-gray-400 text-xs font-bold uppercase hover:bg-gray-200 transition-colors"
+              >
+                Limpiar ×
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Grid de Resultados modificado */}
         <div className="max-w-7xl mx-auto">
           {filteredCars.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredCars.map((car) => (
-                <div 
+                <div
                   key={car.id}
-                  onClick={() => onCarClick(car)}
+                  onClick={() => {
+                    onCarClick(car); // Primero disparamos la acción de ver detalle
+                    onClose();       // Cerramos el buscador para evitar bloqueos visuales
+                  }}
                   className="group cursor-pointer bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300"
                 >
                   <div className="overflow-hidden">
-                    <img 
-                      src={car.images[0]} 
-                      alt={car.name} 
+                    <img
+                      src={car.images[0]}
+                      alt={car.name}
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>

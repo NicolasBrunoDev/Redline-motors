@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SharePopup from '../Popups/SharePopup.jsx';
 
 // 1. COMPONENTE DE RESEÑAS
-const ReviewSection = ({ car, onReviewAdded }) => {
+const ReviewSection = ({ car, onReviewAdded, currentUser, onClose }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -164,7 +164,7 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4">
+      <div className="fixed inset-0 z-[3000] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4">
         <div className="absolute inset-0" onClick={onClose}></div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -173,7 +173,10 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
           onClick={(e) => e.stopPropagation()}
           className="bg-gray-900 border border-white/10 rounded-3xl w-full max-w-6xl overflow-hidden relative shadow-2xl max-h-[95vh] overflow-y-auto z-10"
         >
-          <button onClick={onClose} className="absolute top-6 right-6 text-white/50 hover:text-red-600 text-3xl z-20">
+          <button onClick={() => {
+            onClose();
+          }}
+            className="absolute top-6 right-6 text-white/50 hover:text-red-600 text-3xl z-20">
             &times;
           </button>
 
@@ -203,7 +206,7 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
                   Compartir
                 </button>
               </div>
-              
+
               <h2 className="text-white text-3xl font-black uppercase tracking-tighter">{car.name}</h2>
 
               {/* RATING PROMEDIO VISIBLE */}

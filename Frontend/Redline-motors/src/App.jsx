@@ -24,6 +24,7 @@ import FavoritesPopup from "./Components/Popups/FavoritesPopup.jsx";
 import BookingPage from './Components/Booking/BookingPage.jsx';
 import UserBookings from "./Components/Booking/UserBookings.jsx";
 import WhatsAppButton from "./Components/WhatsApp/WhatsAppButton.jsx";
+import CarDetailPopup from "./Components/Cars/CarDetailPopup.jsx";
 
 const App = () => {
   const [orderPopup, setOrderPopup] = React.useState(false);
@@ -37,20 +38,26 @@ const App = () => {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isFavOpen, setIsFavOpen] = React.useState(false);
   const [userFavorites, setUserFavorites] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  const [showDetail, setShowDetail] = React.useState(false);
 
-
-  // --- 1. EFECTO DE CARGA INICIAL (Solo se ejecuta al montar la App) ---
+  // --- 1. EFECTO DE CARGA INICIAL  ---
   React.useEffect(() => {
     const initializeAppData = async () => {
-      // Restaurar usuario del localStorage
       const savedUser = localStorage.getItem("user");
       if (savedUser) setCurrentUser(JSON.parse(savedUser));
 
-      // Cargar todos los autos del servidor
       try {
-        const res = await fetch("http://localhost:8080/api/cars/all");
-        const data = await res.json();
-        setAllCars(data);
+        const [resCars, resCats] = await Promise.all([
+          fetch("http://localhost:8080/api/cars/all"),
+          fetch("http://localhost:8080/api/categories/all")
+        ]);
+
+        const carsData = await resCars.json();
+        const catsData = await resCats.json();
+
+        setAllCars(carsData);
+        setCategories(Array.isArray(catsData) ? catsData : []);
       } catch (err) {
         console.error("Falla en la carga inicial:", err);
       }
@@ -71,13 +78,20 @@ const App = () => {
   }, [currentUser]); // Se ejecuta cada vez que currentUser se actualiza
 
   // 2. Filtrar autos en tiempo real
-  const filteredCars = allCars.filter(car =>
-    car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    car.brand.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCars = allCars.filter(car => {
+    const search = searchTerm ? searchTerm.toLowerCase() : "";
+    return (
+      car.name.toLowerCase().includes(search) ||
+      car.brand.toLowerCase().includes(search) ||
+      (car.category && car.category.toLowerCase().includes(search))
+    );
+  });
 
   // 3. Manejador para cuando eligen un auto en la búsqueda
-  const handleCarSelect = (car) => {
+  const handleCarClickFromSearch = (car) => {
+    setSelectedCarForReservation(car);
+    setShowReservation(false);
+    setShowDetail(true);
     setIsSearchOpen(false);
     setSearchTerm("");
   };
@@ -123,6 +137,20 @@ const App = () => {
     setShowReservation(true);
   };
 
+
+  const refreshData = async () => {
+    try {
+      const resCars = await fetch("http://localhost:8080/api/cars/all");
+      const carsData = await resCars.json();
+      setAllCars(carsData);
+
+      const resCats = await fetch("http://localhost:8080/api/categories/all");
+      const catsData = await resCats.json();
+      setCategories(Array.isArray(catsData) ? catsData : []);
+    } catch (err) {
+      console.error("Error refrescando datos:", err);
+    }
+  };
 
 
   React.useEffect(() => {
@@ -210,7 +238,8 @@ const App = () => {
               {view === "reservas" && (
                 <div data-aos="fade-in">
                   <Reserva />
-                  {/* Slider General */}
+
+                  {/* Slider General (Todos) */}
                   <CarSlider
                     currentUser={currentUser}
                     onRentClick={handleOpenReservation}
@@ -218,38 +247,17 @@ const App = () => {
                     onToggleFavorite={handleToggleFavorite}
                   />
 
-                  {/* Sliders por Categoría */}
-                  <CarSlider
-                    currentUser={currentUser}
-                    categoryFilter={"Deportivo"}
-                    onRentClick={handleOpenReservation}
-                    userFavorites={userFavorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
-
-                  <CarSlider
-                    currentUser={currentUser}
-                    categoryFilter={"Lujo"}
-                    onRentClick={handleOpenReservation}
-                    userFavorites={userFavorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
-
-                  <CarSlider
-                    currentUser={currentUser}
-                    categoryFilter={"Urbano"}
-                    onRentClick={handleOpenReservation}
-                    userFavorites={userFavorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
-
-                  <CarSlider
-                    currentUser={currentUser}
-                    categoryFilter={"Economico"}
-                    onRentClick={handleOpenReservation}
-                    userFavorites={userFavorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
+                  {/* Sliders Inteligentes: Se crean según las categorías que existan en la BD */}
+                  {categories.map((cat) => (
+                    <CarSlider
+                      key={cat.id}
+                      currentUser={currentUser}
+                      categoryFilter={cat.name}
+                      onRentClick={handleOpenReservation}
+                      userFavorites={userFavorites}
+                      onToggleFavorite={handleToggleFavorite}
+                    />
+                  ))}
                 </div>
               )}
 
@@ -289,7 +297,7 @@ const App = () => {
         </Routes>
       </main>
 
-        
+
       <WhatsAppButton />
 
       {/* COMPONENTES GLOBALES (Fuera de Routes) */}
@@ -311,7 +319,8 @@ const App = () => {
         filteredCars={filteredCars}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
-        onCarClick={handleCarSelect}
+        onCarClick={handleCarClickFromSearch}
+        categories={categories}
       />
 
       <FavoritesPopup
@@ -325,7 +334,14 @@ const App = () => {
         onRemoveFavorite={handleToggleFavorite}
       />
 
-
+      {showDetail && (
+        <CarDetailPopup
+          car={selectedCarForReservation}
+          onClose={() => setShowDetail(false)}
+          currentUser={currentUser}
+          onReviewAdded={refreshData}
+        />
+      )}
 
 
     </div>
