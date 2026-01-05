@@ -61,6 +61,15 @@ const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsF
                     </button>
                   </li>
                 )}
+                {/* --- LINK MIS RESERVAS --- */}
+                {currentUser && (
+                  <Link
+                    to="/mis-reservas"
+                    className="text-white hover:text-red-700 text-xs font-black uppercase tracking-widest transition-colors"
+                  >
+                    Mis Reservas
+                  </Link>
+                )}
 
                 {/* --- BOTÓN PANEL ADMIN --- */}
                 {currentUser && currentUser.role === "ADMIN" && (

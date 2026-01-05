@@ -10,6 +10,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // Obtener todas las reservas de un auto específico para bloquear el calendario
     List<Booking> findByCarId(Long carId);
 
+    // El "OrderByStartDateDesc" hará que las más recientes aparezcan primero
+    List<Booking> findByUserIdOrderByStartDateDesc(Long userId);
+
     // Query para verificar si hay solapamiento de fechas antes de guardar
     @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.car.id = :carId AND " +
             "(:startDate < b.endDate AND :endDate > b.startDate)")

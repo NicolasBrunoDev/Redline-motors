@@ -216,3 +216,13 @@
   color: #d1d5db !important;
   font-size: 1rem !important;
 }
+
+.calendar-redline .rdp-day_disabled { 
+    opacity: 0.2; 
+    text-decoration: line-through;
+    cursor: not-allowed !important;
+  }
+
+  .rdp-day_disabled {
+    color: #4b5563 !important;
+  }

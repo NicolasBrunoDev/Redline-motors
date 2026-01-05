@@ -22,6 +22,8 @@ import SearchBar from "./Components/SearchBar/SearchBar.jsx";
 import SearchPopup from "./Components/SearchBar/SearchPopup.jsx";
 import FavoritesPopup from "./Components/Popups/FavoritesPopup.jsx";
 import BookingPage from './Components/Booking/BookingPage.jsx';
+import UserBookings from "./Components/Booking/UserBookings.jsx";
+import WhatsAppButton from "./Components/WhatsApp/WhatsAppButton.jsx";
 
 const App = () => {
   const [orderPopup, setOrderPopup] = React.useState(false);
@@ -266,9 +268,9 @@ const App = () => {
           } />
 
           {/* 2. NUEVA RUTA: Página de Reserva con Calendario */}
-          <Route 
-            path="/reserve/:carId" 
-            element={<BookingPage currentUser={currentUser} />} 
+          <Route
+            path="/reserve/:carId"
+            element={<BookingPage currentUser={currentUser} />}
           />
 
           {/* 3. RUTA OPCIONAL: Si necesitas una página de login independiente */}
@@ -277,22 +279,32 @@ const App = () => {
               <p className="uppercase font-black tracking-widest">Por favor, inicia sesión usando el botón de la barra superior.</p>
             </div>
           } />
+
+          {/* 4. NUEVA RUTA: Mis Reservas */}
+          <Route
+            path="/mis-reservas"
+            element={<UserBookings currentUser={currentUser} />}
+          />
+
         </Routes>
       </main>
 
+        
+      <WhatsAppButton />
+
       {/* COMPONENTES GLOBALES (Fuera de Routes) */}
       <Footer />
-      
+
       <Cartpopup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
-      
+
       <AuthPopup authPopup={authPopup} setAuthPopup={setAuthPopup} />
-      
-      <ReservationPopup 
-        show={showReservation} 
-        car={selectedCarForReservation} 
-        onClose={() => setShowReservation(false)} 
+
+      <ReservationPopup
+        show={showReservation}
+        car={selectedCarForReservation}
+        onClose={() => setShowReservation(false)}
       />
-      
+
       <SearchPopup
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
@@ -301,7 +313,7 @@ const App = () => {
         setSearchTerm={setSearchTerm}
         onCarClick={handleCarSelect}
       />
-      
+
       <FavoritesPopup
         isOpen={isFavOpen}
         onClose={() => setIsFavOpen(false)}
@@ -312,6 +324,10 @@ const App = () => {
         }}
         onRemoveFavorite={handleToggleFavorite}
       />
+
+
+
+
     </div>
   );
 };

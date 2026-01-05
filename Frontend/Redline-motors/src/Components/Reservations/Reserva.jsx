@@ -5,8 +5,15 @@ function Reserva() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
 
-  const abrirAgenda = (servicio) => {
-    setSelectedService({ name: servicio });
+const abrirAgenda = (servicio, idVirtual, imagen) => {
+    setSelectedService({ 
+      id: idVirtual, 
+      name: `Taller: ${servicio}`,
+      images: [imagen],
+      brand: "Redline Service",
+      category: "Mantenimiento",
+      available: true
+    });
     setShowPopup(true);
   };
 

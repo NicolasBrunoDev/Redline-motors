@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.redline.redline_backend.Review;
 
 @RestController
@@ -17,9 +21,11 @@ import com.redline.redline_backend.Review;
 public class carController {
 
     @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
     private carRepository carRepository;
 
-    // --- CORRECCIÓN: Inyectamos el repositorio de usuarios para que el toggle funcione ---
     @Autowired
     private userRepository userRepository;
 
@@ -138,6 +144,20 @@ public class carController {
         return carRepository.findById(id)
                 .map(car -> ResponseEntity.ok().body(car))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    //9. Enviar información de fechas
+
+    @GetMapping("/{id}/booked-dates")
+    public ResponseEntity<List<Map<String, LocalDate>>> getBookedDates(@PathVariable Long id) {
+
+        List<Booking> bookings = bookingRepository.findByCarId(id);
+
+        List<Map<String, LocalDate>> dates = bookings.stream().map(b -> {
+            return Map.of("start", b.getStartDate(), "end", b.getEndDate());
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(dates);
     }
 
 }

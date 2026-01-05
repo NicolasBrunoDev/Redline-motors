@@ -10,38 +10,64 @@ const BookingPage = ({ currentUser }) => {
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
   const [range, setRange] = useState({ from: undefined, to: undefined });
-  
-  // --- 1. DECLARAR EL ESTADO DE CARGA ---
+  const [bookedDates, setBookedDates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 2. Cargar los datos del auto seleccionado
+
   useEffect(() => {
-    setLoading(true); // Ahora sí funcionará
-    fetch(`http://localhost:8080/api/cars/${carId}`)
-      .then(res => res.json())
-      .then(data => {
-        setCar(data);
+    setLoading(true);
+
+    Promise.all([
+      fetch(`http://localhost:8080/api/cars/${carId}`).then(res => res.json()),
+      fetch(`http://localhost:8080/api/cars/${carId}/booked-dates`).then(res => res.json())
+    ])
+      .then(([carData, datesData]) => {
+        setCar(carData);
+
+
+        const formattedDates = datesData.map(reserva => ({
+          from: new Date(reserva.start + "T00:00:00"),
+          to: new Date(reserva.end + "T00:00:00")
+        }));
+
+        setBookedDates(formattedDates);
         setLoading(false);
       })
       .catch(err => {
-        console.error("Error:", err);
+        console.error("Error cargando datos:", err);
         setLoading(false);
       });
   }, [carId]);
 
-  const handleConfirmReservation = () => {
+const handleConfirmReservation = () => {
     if (!range.from || !range.to) return alert("Selecciona un rango de fechas");
 
     const reservationData = {
-      carId: car.id,
-      userId: currentUser?.id, // Usamos ? por seguridad
+      carId: parseInt(carId),
+      userId: currentUser?.id,
       startDate: format(range.from, 'yyyy-MM-dd'),
       endDate: format(range.to, 'yyyy-MM-dd')
     };
 
     console.log("Enviando reserva:", reservationData);
-    alert(`¡Reserva confirmada para el ${car.name}!`);
-    navigate('/'); 
+
+    fetch('http://localhost:8080/api/bookings/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(reservationData)
+    })
+      .then(res => {
+        if (res.ok) {
+          alert(`¡Reserva confirmada para el ${car.name}!`);
+          navigate('/');
+        } else {
+          alert("Error al guardar la reserva. Revisa la consola.");
+        }
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        alert("No se pudo conectar con el servidor");
+      });
   };
 
   // --- 3. PANTALLA DE CARGA PREVENTIVA ---
@@ -68,7 +94,7 @@ const BookingPage = ({ currentUser }) => {
             <div className="flex items-center gap-2 text-gray-500 text-xs uppercase font-bold">
               <span>{car.category}</span>
               <span>•</span>
-              <span className="text-red-600">${car.priceDay}/día</span>
+              <span className="text-red-600">{car.priceDay}/día</span>
             </div>
           </div>
 
@@ -97,7 +123,11 @@ const BookingPage = ({ currentUser }) => {
               selected={range}
               onSelect={setRange}
               locale={es}
-              disabled={{ before: new Date() }}
+              disabled={[
+                { before: new Date() },
+                ...bookedDates
+              ]}
+              className="calendar-redline"
               modifiersStyles={{
                 selected: { backgroundColor: '#b91c1c', color: 'white' },
                 today: { color: '#ef4444', fontWeight: 'bold' }

@@ -34,7 +34,7 @@ const Blogs = () => {
     <div className='pl-5 pr-5'>
         <div className='container'>
         {/* Header Section*/}
-                <Heading title="Recent News" subtitle="Explore our Blogs" />
+                <Heading title="Noticias Recientes" subtitle="Explora nuestros blogs" />
         </div>
 
         {/* Blogs Section*/}

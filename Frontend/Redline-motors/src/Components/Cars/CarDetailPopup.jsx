@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import SharePopup from '../Popups/SharePopup.jsx';
 
-// 1. COMPONENTE DE RESEÑAS (Cambiado el nombre correcto)
+// 1. COMPONENTE DE RESEÑAS
 const ReviewSection = ({ car, onReviewAdded }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -79,8 +79,10 @@ const ReviewSection = ({ car, onReviewAdded }) => {
               <div key={idx} className="border-b border-white/5 pb-4">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-white text-[11px] font-bold uppercase">{rev.userName}</span>
-                  <div className="flex text-red-700 text-[10px]">
-                    {"★".repeat(rev.stars)}{"☆".repeat(5 - rev.stars)}
+                  <div className="flex text-red-700 text-[10px] gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <span key={s}>{s <= rev.stars ? "★" : "☆"}</span>
+                    ))}
                   </div>
                 </div>
                 <p className="text-gray-400 text-xs italic leading-relaxed">"{rev.comment}"</p>
@@ -121,12 +123,18 @@ const ProductPolicies = () => {
   );
 };
 
-// 3. COMPONENTE PRINCIPAL (Sin redeclarar)
+// 3. COMPONENTE PRINCIPAL
 const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
   const navigate = useNavigate();
   const [selectedImg, setSelectedImg] = useState(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
+
+  // --- CÁLCULO DE PROMEDIO MOVIDO AQUÍ PARA QUE FUNCIONE EN EL DETALLE ---
+  const reviews = car?.reviews || [];
+  const averageRating = reviews.length > 0
+    ? (reviews.reduce((acc, rev) => acc + rev.stars, 0) / reviews.length).toFixed(1)
+    : 0;
 
   useEffect(() => {
     if (car && car.images && car.images.length > 0) {
@@ -134,7 +142,6 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
     }
   }, [car]);
 
-  // UNIFICACIÓN DE LÓGICA DE RESERVA
   const handleRentClick = () => {
     if (!acceptedTerms) {
       alert("Debes aceptar los términos y condiciones.");
@@ -144,7 +151,7 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
     if (!currentUser) {
       localStorage.setItem("redirectAfterLogin", `/reserve/${car.id}`);
       navigate("/login", {
-        state: { message: "Debes iniciar sesión para realizar una reserva. Si no tienes cuenta, por favor regístrate." }
+        state: { message: "Debes iniciar sesión para realizar una reserva." }
       });
       onClose();
     } else {
@@ -152,8 +159,6 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
       navigate(`/reserve/${car.id}`);
     }
   };
-
-  const isButtonDisabled = !car.available || (currentUser && !acceptedTerms);
 
   if (!car) return null;
 
@@ -168,18 +173,15 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
           onClick={(e) => e.stopPropagation()}
           className="bg-gray-900 border border-white/10 rounded-3xl w-full max-w-6xl overflow-hidden relative shadow-2xl max-h-[95vh] overflow-y-auto z-10"
         >
-          {/* Botón cerrar */}
           <button onClick={onClose} className="absolute top-6 right-6 text-white/50 hover:text-red-600 text-3xl z-20">
             &times;
           </button>
 
           <div className="grid grid-cols-1 md:grid-cols-12 h-full min-h-[500px]">
-            {/* Imagen principal */}
             <div className="md:col-span-6 bg-black flex items-center justify-center p-4">
               <img src={selectedImg} alt={car.name} className="w-full h-full object-contain max-h-[500px]" />
             </div>
 
-            {/* Miniaturas */}
             <div className="md:col-span-1 bg-gray-800/50 p-4 flex md:flex-col gap-4 overflow-x-auto">
               {car.images?.map((img, idx) => (
                 <img
@@ -191,7 +193,6 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
               ))}
             </div>
 
-            {/* Detalles */}
             <div className="md:col-span-5 p-8 flex flex-col bg-gray-900 border-l border-white/5">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-red-700 font-bold uppercase tracking-widest text-[15px]">{car.brand}</span>
@@ -202,36 +203,48 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
                   Compartir
                 </button>
               </div>
+              
               <h2 className="text-white text-3xl font-black uppercase tracking-tighter">{car.name}</h2>
+
+              {/* RATING PROMEDIO VISIBLE */}
+              <div className="flex items-center gap-2 mt-2">
+                <div className="flex text-red-700 text-sm gap-0.5">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span key={star}>
+                      {star <= Math.round(averageRating) ? "★" : "☆"}
+                    </span>
+                  ))}
+                </div>
+                <span className="text-gray-500 text-[10px] font-bold uppercase tracking-widest">
+                  {averageRating} ({reviews.length} reseñas)
+                </span>
+              </div>
 
               <div className="h-1 w-16 bg-red-700 my-4"></div>
 
-              <div>
-                {/* Características (Igual que antes) */}
-                {car.features?.length > 0 && (
-                  <div className="mb-6">
-                    <p className="text-[9px] font-black uppercase text-gray-500 tracking-widest mb-3">Especificaciones</p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {car.features.map((feat, idx) => (
-                        <div key={idx} className="bg-white/5 border border-white/5 p-2 rounded-lg flex flex-col justify-center min-h-[50px]">
-                          <p className="text-[7px] text-gray-500 uppercase font-bold leading-none mb-1">{feat.name}</p>
-                          <p className="text-white text-[10px] font-black italic uppercase">{feat.value}</p>
-                        </div>
-                      ))}
-                    </div>
+              {/* Características */}
+              {car.features?.length > 0 && (
+                <div className="mb-6">
+                  <p className="text-[9px] font-black uppercase text-gray-500 tracking-widest mb-3">Especificaciones</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {car.features.map((feat, idx) => (
+                      <div key={idx} className="bg-white/5 border border-white/5 p-2 rounded-lg flex flex-col justify-center min-h-[50px]">
+                        <p className="text-[7px] text-gray-500 uppercase font-bold leading-none mb-1">{feat.name}</p>
+                        <p className="text-white text-[10px] font-black italic uppercase">{feat.value}</p>
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Checkbox Términos */}
               <div className="flex items-center gap-3 mb-6 p-4 bg-white/5 rounded-xl border border-white/5">
                 <input
                   type="checkbox"
                   checked={acceptedTerms}
                   onChange={() => setAcceptedTerms(!acceptedTerms)}
-                  className="w-4 h-4 accent-red-700"
+                  className="w-4 h-4 accent-red-700 cursor-pointer"
                 />
-                <label className="text-gray-400 text-[10px] uppercase font-bold tracking-widest">
+                <label className="text-gray-400 text-[10px] uppercase font-bold tracking-widest cursor-pointer">
                   Acepto los términos y condiciones
                 </label>
               </div>
@@ -242,18 +255,13 @@ const CarDetailPopup = ({ car, onClose, currentUser, onReviewAdded }) => {
 
                 <button
                   onClick={handleRentClick}
-                  // Bloqueado si no hay auto disponible O no se aceptaron términos
                   disabled={!car.available || !acceptedTerms}
                   className={`w-full font-bold py-4 rounded-xl transition-all shadow-lg uppercase text-xs tracking-widest
                       ${(car.available && acceptedTerms)
                       ? 'bg-red-700 hover:bg-red-800 text-white shadow-red-900/20 active:scale-[0.98]'
                       : 'bg-gray-800 text-gray-500 cursor-not-allowed opacity-40'}`}
                 >
-                  {!car.available
-                    ? 'No disponible'
-                    : !acceptedTerms
-                      ? 'Acepta los términos y condiciones'
-                      : (currentUser ? 'Reservar ahora' : 'Inicia sesión para reservar')}
+                  {!car.available ? 'No disponible' : !acceptedTerms ? 'Acepta los términos' : 'Reservar ahora'}
                 </button>
               </div>
             </div>
