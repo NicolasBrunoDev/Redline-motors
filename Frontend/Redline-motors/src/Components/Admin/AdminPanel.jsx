@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-const AdminPanel = () => {
+const AdminPanel = ({ onActionSuccess }) => {
     const [users, setUsers] = useState([]);
     const [categories, setCategories] = useState([]);
     const [cars, setCars] = useState([]); // Estado para la flota
@@ -47,7 +47,11 @@ const AdminPanel = () => {
             });
 
             if (res.ok) {
+                // 2. Actualiza el estado local del Admin
                 setCars(prev => prev.map(c => c.id === carId ? { ...c, available: !currentStatus } : c));
+
+                // 3. ¡VITAL! Avisa a App.jsx que refresque los datos globales
+                if (onActionSuccess) onActionSuccess();
             }
         } catch (err) {
             alert("Error al actualizar estado del vehículo");
@@ -65,6 +69,8 @@ const AdminPanel = () => {
             });
             if (res.ok) {
                 setNewCategory("");
+                setCars(prev => prev.map(c => c.id === carId ? { ...c, available: !currentStatus } : c));
+                if (onActionSuccess) onActionSuccess();
                 fetchData();
             }
         } catch (err) {
@@ -79,7 +85,10 @@ const AdminPanel = () => {
                     method: 'DELETE'
                 });
                 if (res.ok) {
+                    setCars(prev => prev.map(c => c.id === carId ? { ...c, available: !currentStatus } : c));
+                    if (onActionSuccess) onActionSuccess();
                     fetchData(); // Recargamos para ver los cambios
+                    
                 } else {
                     alert("Error al eliminar la categoría");
                 }
@@ -180,8 +189,8 @@ const AdminPanel = () => {
                             <button
                                 onClick={() => toggleAvailability(car.id, car.available)}
                                 className={`w-full py-3 rounded-xl text-[10px] font-black transition-all uppercase tracking-tighter ${car.available
-                                        ? 'bg-gray-800 text-gray-400 hover:bg-red-700/20 hover:text-red-500 border border-white/5'
-                                        : 'bg-green-700 text-white hover:bg-green-600 shadow-[0_0_15px_rgba(21,128,61,0.3)]'
+                                    ? 'bg-gray-800 text-gray-400 hover:bg-red-700/20 hover:text-red-500 border border-white/5'
+                                    : 'bg-green-700 text-white hover:bg-green-600 shadow-[0_0_15px_rgba(21,128,61,0.3)]'
                                     }`}
                             >
                                 {car.available ? 'Marcar No Disponible' : 'Habilitar Vehículo'}

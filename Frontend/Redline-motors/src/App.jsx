@@ -264,7 +264,7 @@ const App = () => {
               {view === "admin" && (
                 <div data-aos="zoom-in">
                   {currentUser?.role === "ADMIN" ? (
-                    <AdminPanel />
+                    <AdminPanel onActionSuccess={refreshData} />
                   ) : (
                     <div className="h-screen flex items-center justify-center text-white text-2xl font-black uppercase">
                       Acceso Denegado. No eres administrador.
