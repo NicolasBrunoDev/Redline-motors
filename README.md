@@ -69,8 +69,14 @@ SPRING_DATASOURCE_USERNAME=sa
 SPRING_DATASOURCE_PASSWORD=
 SPRING_H2_CONSOLE_ENABLED=true
 
-# Seguridad (Opcional si usas JWT)
-JWT_SECRET=tu_clave_secreta_redline_2026
+# Configuración de MailTrap para Spring Boot
+spring.mail.host=sandbox.smtp.mailtrap.io
+spring.mail.port=2525
+spring.mail.username=${MAILTRAP_USER}
+spring.mail.password=${MAILTRAP_PASS}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
 
 🏃‍♂️ Correr el backend:
 Bash
