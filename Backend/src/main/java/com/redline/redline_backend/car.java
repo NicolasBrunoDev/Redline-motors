@@ -14,6 +14,10 @@ public class car {
     @JoinColumn(name = "car_id") // Esto crea la relación en la tabla de features
     private List<CarFeature> features = new ArrayList<>(); // Inicializar evita NullPointerException
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "car_id")
+    private List<Review> reviews = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +27,8 @@ public class car {
     private String priceDay;
     private String category;
     private boolean available = true;
+    private Double averageRating = 0.0;
+    private Integer totalReviews = 0;
 
     @ElementCollection
     private List<String> images; // 1. Cambié 'image' a 'images' para que sea más claro que es una lista
@@ -59,6 +65,12 @@ public class car {
     public void setImages(List<String> images) { this.images = images; }
     public List<CarFeature> getFeatures() { return features; }
     public void setFeatures(List<CarFeature> features) { this.features = features; }
+    public void setTotalReviews(Integer totalReviews) { this.totalReviews = totalReviews; }
+    public Integer getTotalReviews() { return totalReviews; }
+    public void setAverageRating(Double averageRating) { this.averageRating = averageRating; }
+    public Double getAverageRating() { return averageRating; }
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
 
 }

@@ -5,7 +5,7 @@ import ResponsiveMenu from './ResponsiveMenu.jsx';
 import DarkMode from './DarkMode.jsx';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ setView, view ,setAuthPopup, currentUser, handleLogout }) => {
+const Navbar = ({ setView, view, setAuthPopup, currentUser, handleLogout, setIsFavOpen }) => {
   const [open, setOpen] = useState(false);
 
   // NOTA: Eliminamos el estado 'user' interno porque ya usamos 'currentUser' de las props.
@@ -13,7 +13,7 @@ const Navbar = ({ setView, view ,setAuthPopup, currentUser, handleLogout }) => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 shadow-md bg-gradient-to-b from-gray-950/90 to-gray-950/80">
+      <nav className="w-full">
         <div className="container mx-auto flex items-center justify-between py-2 px-4">
 
           {/* Logo Section */}
@@ -51,6 +51,17 @@ const Navbar = ({ setView, view ,setAuthPopup, currentUser, handleLogout }) => {
                   );
                 })}
 
+                {/* --- BOTÓN MIS FAVORITOS (Para cualquier usuario logueado) --- */}
+                {currentUser && (
+                  <li>
+                    <button
+                      onClick={() => setIsFavOpen(true)}
+                      className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-all border bg-transparent border-gray-600 text-gray-400 hover:border-red-700 hover:text-red-500"
+                    >❤️ MIS FAVORITOS
+                    </button>
+                  </li>
+                )}
+
                 {/* --- BOTÓN PANEL ADMIN --- */}
                 {currentUser && currentUser.role === "ADMIN" && (
                   <li>
@@ -64,8 +75,8 @@ const Navbar = ({ setView, view ,setAuthPopup, currentUser, handleLogout }) => {
                         }
                       }}
                       className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${view === "admin"
-                          ? "bg-red-700 text-white border-red-700 shadow-[0_0_15px_rgba(185,28,28,0.5)]"
-                          : "bg-red-700/20 border-red-700 text-red-500 hover:bg-red-700 hover:text-white"
+                        ? "bg-red-700 text-white border-red-700 shadow-[0_0_15px_rgba(185,28,28,0.5)]"
+                        : "bg-red-700/20 border-red-700 text-red-500 hover:bg-red-700 hover:text-white"
                         }`}
                     >
                       {view === "admin" ? "✖ CERRAR PANEL" : "🛡️ ADMIN"} {/* El emoji funciona como simbolo*/}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const AuthPopup = ({ authPopup, setAuthPopup }) => {
+const AuthPopup = ({ authPopup, setAuthPopup, authMessage }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -26,24 +26,29 @@ const AuthPopup = ({ authPopup, setAuthPopup }) => {
 
       if (response.ok) {
         if (isLogin) {
-          // --- LÓGICA DE LOGIN ---
           const userData = await response.json(); 
           localStorage.setItem("user", JSON.stringify(userData));
-          alert("¡Bienvenido de nuevo, " + userData.name + "!");
+          
           setAuthPopup(false);
-          window.location.reload(); 
+
+          // LÓGICA DE REDIRECCIÓN POST-RESERVA
+          const pendingRedirect = localStorage.getItem("redirectAfterLogin");
+          if (pendingRedirect) {
+            localStorage.removeItem("redirectAfterLogin");
+            window.location.href = pendingRedirect; // Redirigir a la página de reserva
+          } else {
+            window.location.reload(); 
+          }
         } else {
-          // --- LÓGICA DE REGISTRO ---
-          const message = await response.text();
-          alert(message);
-          setIsLogin(true); // Cambiar a pestaña de login tras registrarse
+          alert("Registro exitoso. Por favor, inicia sesión.");
+          setIsLogin(true);
         }
       } else {
         const errorText = await response.text();
         alert("Error: " + errorText);
       }
     } catch (error) {
-      alert("Error de conexión: Asegúrate de que tu backend esté corriendo.");
+      alert("Error de conexión");
     }
   };
 
@@ -57,6 +62,15 @@ const AuthPopup = ({ authPopup, setAuthPopup }) => {
             exit={{ opacity: 0, scale: 0.9 }}
             className="bg-gray-900 border border-red-700 p-8 rounded-3xl w-[380px] relative text-white shadow-2xl"
           >
+            {/* --- CRITERIO DE ACEPTACIÓN: MENSAJE OBLIGATORIO --- */}
+            {authMessage && isLogin && (
+              <div className="mb-6 p-4 bg-red-700/20 border border-red-700/50 rounded-xl">
+                <p className="text-red-500 text-xs font-bold text-center uppercase tracking-tight">
+                  {authMessage}
+                </p>
+              </div>
+            )}
+
             <button
               onClick={() => setAuthPopup(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-red-600 text-2xl font-bold"
@@ -100,7 +114,7 @@ const AuthPopup = ({ authPopup, setAuthPopup }) => {
 
               <button
                 type="submit"
-                className="bg-red-700 hover:bg-red-800 text-white font-bold py-3 rounded-xl transition-all mt-4 uppercase tracking-wider active:scale-95"
+                className="bg-red-700 hover:bg-red-800 text-white font-bold py-3 rounded-xl transition-all mt-4 uppercase tracking-wider active:scale-95 shadow-[0_0_20px_rgba(185,28,28,0.3)]"
               >
                 {isLogin ? 'Entrar ahora' : 'Registrarme'}
               </button>

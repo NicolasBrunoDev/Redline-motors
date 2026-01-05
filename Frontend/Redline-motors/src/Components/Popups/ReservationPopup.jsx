@@ -5,7 +5,36 @@ const ReservationPopup = ({ show, car, onClose }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // 1. Bloqueo de seguridad: Si por alguna razón el popup se abre con un auto no disponible (Los caminos del codigo son misteriosos)
+  if (show && car && !car.available) {
+    return (
+      <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gray-900 border border-red-700/30 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl"
+        >
+          <div className="text-red-700 text-6xl mb-4">⚠️</div>
+          <h2 className="text-xl font-black text-white uppercase mb-4">Vehículo No Disponible</h2>
+          <p className="text-gray-400 text-sm mb-6">
+            Lo sentimos, el <span className="text-white font-bold">{car.name}</span> ha sido retirado de la flota temporalmente por mantenimiento.
+          </p>
+          <button onClick={onClose} className="w-full bg-red-700 py-3 rounded-xl font-bold text-white uppercase text-xs">
+            Volver al catálogo
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
   const handleConfirm = () => {
+    // 2. Validación final antes de procesar
+    if (!car?.available) {
+      alert("Error: Este vehículo no está disponible para reserva.");
+      onClose();
+      return;
+    }
+
     if (!selectedDate) {
       alert("Por favor, selecciona una fecha.");
       return;
@@ -37,7 +66,7 @@ const ReservationPopup = ({ show, car, onClose }) => {
               
               <input 
                 type="date" 
-                min={new Date().toISOString().split("T")[0]} // No permite fechas pasadas
+                min={new Date().toISOString().split("T")[0]} 
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 className="w-full bg-black border border-gray-800 p-4 rounded-xl text-white outline-none focus:border-red-700 mb-6 transition-all"
@@ -47,7 +76,7 @@ const ReservationPopup = ({ show, car, onClose }) => {
                 <button onClick={onClose} className="flex-1 text-gray-500 font-bold uppercase text-xs">Cancelar</button>
                 <button 
                   onClick={handleConfirm}
-                  className="flex-1 bg-red-700 py-3 rounded-xl font-bold hover:bg-red-800 transition-all uppercase text-xs tracking-widest text-white"
+                  className="flex-1 bg-red-700 py-3 rounded-xl font-bold hover:bg-red-800 transition-all uppercase text-xs tracking-widest text-white shadow-[0_0_20px_rgba(185,28,28,0.4)]"
                 >
                   Confirmar
                 </button>

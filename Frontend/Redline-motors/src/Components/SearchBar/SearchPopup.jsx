@@ -1,0 +1,95 @@
+import React, { useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const SearchPopup = ({ isOpen, onClose, filteredCars, searchTerm, setSearchTerm, onCarClick }) => {
+  const inputRef = useRef(null);
+
+  // Auto-foco: Pone el cursor en el input apenas se abre el popup
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      // Un pequeño timeout asegura que la animación de Framer Motion no interfiera con el foco
+      const timer = setTimeout(() => {
+        inputRef.current.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  // Cerrar con la tecla Escape
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[2000] bg-white w-full h-full overflow-y-auto p-10"
+      >
+        {/* Header con Input de Búsqueda dinámico */}
+        <div className="max-w-7xl mx-auto flex justify-between items-center mb-10 border-b-2 border-gray-100 pb-5">
+          <div className="flex-1 flex flex-col">
+            <span className="text-red-700 font-bold text-xs uppercase tracking-widest mb-1">Buscando en Redline Motors</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Escribe marca o modelo..."
+              className="text-4xl font-black text-black uppercase outline-none bg-transparent w-full"
+            />
+          </div>
+          
+          <button 
+            onClick={onClose}
+            className="text-black text-6xl font-light hover:text-red-700 transition-colors ml-4"
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* Grid de Resultados */}
+        <div className="max-w-7xl mx-auto">
+          {filteredCars.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredCars.map((car) => (
+                <div 
+                  key={car.id}
+                  onClick={() => onCarClick(car)}
+                  className="group cursor-pointer bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="overflow-hidden">
+                    <img 
+                      src={car.images[0]} 
+                      alt={car.name} 
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-5 text-black">
+                    <span className="text-red-700 text-[10px] font-bold uppercase">{car.brand}</span>
+                    <h3 className="text-xl font-black uppercase">{car.name}</h3>
+                    <p className="text-gray-600 font-bold">{car.priceDay}/día</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-2xl text-gray-400 font-bold italic">No encontramos ningún motor rugiendo con "{searchTerm}"...</p>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default SearchPopup;
